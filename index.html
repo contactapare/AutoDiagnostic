@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auto-diagnostic — Risque de requalification fiscale | UCPR · APARE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;0,800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16202e;--ink-soft:#3a4760;--muted:#67748c;--line:#e6e9ef;--line-strong:#d2d8e2;
+  --bg:#ffffff;--bg-soft:#f6f7f9;
+  --green:#0f5c46;--green-2:#16795d;--green-wash:#eaf3ef;
+  --navy:#1a3a5c;--navy-2:#2b557f;
+  --amber:#b9791a;--amber-wash:#fbf2e2;--amber-line:#ecd6a8;
+  --red:#b0301f;--red-wash:#fbece9;--red-line:#f0bcb3;
+  --ok:#0f7a4f;--ok-wash:#e9f5ee;--ok-line:#b7e0c6;
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --serif:'Spectral',Georgia,serif;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--bg-soft);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* lockups */
+.lk{display:inline-flex;flex-direction:column;line-height:1;font-family:var(--sans)}
+.lk .lk-mark{font-weight:800;letter-spacing:.02em;position:relative;display:inline-block;font-size:20px}
+.lk .lk-sub{font-size:7px;text-transform:uppercase;letter-spacing:.1em;margin-top:3px;font-weight:600;max-width:150px}
+.lk-ucpr .lk-mark{color:#0c4a38}.lk-ucpr .lk-mark::after{content:"";position:absolute;left:-2px;right:-8px;bottom:-3px;height:2.5px;border-radius:3px;background:linear-gradient(90deg,#0f5c46,#3fae7d);transform:skewX(-18deg)}.lk-ucpr .lk-sub{color:#0c4a38}
+.lk-apare .lk-mark{color:#1a3a5c}.lk-apare .lk-mark i{font-style:normal;color:#c0392b}.lk-apare .lk-mark::after{content:"";position:absolute;right:-10px;top:1px;bottom:1px;width:2.5px;background:#c0392b;transform:skewX(-16deg)}.lk-apare .lk-sub{color:#1a3a5c}
+.on-dark .lk-ucpr .lk-mark,.on-dark .lk-ucpr .lk-sub{color:#eafaf3}
+.on-dark .lk-apare .lk-mark{color:#fff}.on-dark .lk-apare .lk-mark i{color:#fff}.on-dark .lk-apare .lk-mark::after{background:#fff}.on-dark .lk-apare .lk-sub{color:rgba(255,255,255,.9)}
+:root{--apare-img:url('data:image/png;base64,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')}
+.apare-logo{display:inline-block;background:var(--apare-img) center/contain no-repeat;vertical-align:middle}
+.footnote a.brandlink{text-decoration:none;display:inline-flex}
+.footnote .parea{background:#ebf3fa;border:1px solid #bcd6ec;border-radius:11px;padding:11px 15px;font-size:12.5px;color:#1f5a8a;margin:0 0 12px;text-align:left}
+.footnote .contacts{font-size:12.5px;color:var(--ink-soft);line-height:1.7;margin:0 0 14px;text-align:left}
+.footnote .contacts b{color:var(--ink)}
+
+/* header */
+.top{background:linear-gradient(150deg,#0c3d30 0%,#0e2740 60%,#10233a 100%);color:#fff;position:relative;overflow:hidden}
+.top::before{content:"";position:absolute;inset:0;opacity:.06;background-image:repeating-linear-gradient(90deg,#fff 0 1px,transparent 1px 60px)}
+.top-in{max-width:880px;margin:0 auto;padding:26px 24px 30px;position:relative}
+.top .logos{display:flex;align-items:center;gap:18px;margin-bottom:20px}
+.top .logos .sep{width:1px;height:30px;background:rgba(255,255,255,.2)}
+.top .ey{font-size:11.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#9fe6c8}
+.top h1{font-family:var(--serif);font-weight:800;font-size:clamp(24px,4vw,34px);line-height:1.1;margin:10px 0 0}
+.top p{margin:12px 0 0;font-size:15px;color:rgba(255,255,255,.86);max-width:640px}
+
+.wrap{max-width:880px;margin:0 auto;padding:0 24px}
+
+/* intro card */
+.intro{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin:-18px auto 0;position:relative;box-shadow:0 8px 30px rgba(20,30,50,.06)}
+.intro h2{font-family:var(--serif);font-size:20px;margin:0 0 8px}
+.intro p{margin:8px 0;font-size:14.5px;color:var(--ink-soft)}
+.intro .clubrow{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+.intro label{font-size:13px;font-weight:600;color:var(--ink-soft)}
+.intro input[type=text]{font-family:var(--sans);font-size:14px;border:1px solid var(--line-strong);border-radius:9px;padding:9px 12px;min-width:240px}
+.intro input:focus{outline:none;border-color:var(--navy-2);box-shadow:0 0 0 3px #eaf0f6}
+.disclaimer{background:var(--amber-wash);border:1px solid var(--amber-line);border-radius:11px;padding:12px 15px;font-size:13px;color:#7a5410;margin-top:14px}
+.disclaimer b{color:#5e3f0a}
+
+/* progress */
+.progbar{position:sticky;top:0;z-index:30;background:rgba(246,247,249,.95);backdrop-filter:blur(6px);padding:12px 0;margin:22px 0 0}
+.progbar .in{max-width:880px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:14px}
+.progbar .track{flex:1;height:8px;background:#e4e8ee;border-radius:99px;overflow:hidden}
+.progbar .fill{height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--navy));border-radius:99px;transition:width .25s}
+.progbar .lbl{font-size:13px;font-weight:600;color:var(--ink-soft);white-space:nowrap;font-variant-numeric:tabular-nums}
+
+/* theme block */
+.theme{background:#fff;border:1px solid var(--line);border-radius:16px;margin:18px 0;overflow:hidden}
+.theme .th{display:flex;align-items:center;gap:14px;padding:18px 22px;border-left:6px solid var(--c)}
+.theme .th .num{flex:0 0 38px;width:38px;height:38px;border-radius:10px;background:var(--c);color:#fff;display:grid;place-items:center;font-family:var(--serif);font-weight:800;font-size:17px}
+.theme .th h3{font-family:var(--serif);font-size:20px;margin:0;line-height:1.2}
+.theme .th .ref{font-size:12px;color:var(--muted);margin-top:2px}
+.theme .body{padding:4px 22px 18px}
+.q{padding:16px 0;border-top:1px dashed var(--line)}
+.q:first-child{border-top:0}
+.q .qt{font-weight:600;font-size:15px;margin-bottom:4px}
+.q .qh{font-size:12.5px;color:var(--muted);margin-bottom:10px}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;align-items:flex-start;gap:11px;border:1px solid var(--line);border-radius:11px;padding:11px 13px;cursor:pointer;transition:.13s;font-size:14px}
+.opt:hover{border-color:var(--navy-2);background:var(--bg-soft)}
+.opt input{margin-top:3px;accent-color:var(--navy);width:16px;height:16px;flex:0 0 auto}
+.opt.sel{border-color:var(--c2);background:var(--c2-wash);box-shadow:inset 0 0 0 1px var(--c2)}
+.opt[data-lvl=ok]{--c2:var(--ok);--c2-wash:var(--ok-wash)}
+.opt[data-lvl=info]{--c2:var(--navy);--c2-wash:#eaf0f6}
+.opt[data-lvl=warn]{--c2:var(--amber);--c2-wash:var(--amber-wash)}
+.opt[data-lvl=risk],.opt[data-lvl=crit]{--c2:var(--red);--c2-wash:var(--red-wash)}
+
+/* actions */
+.actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:26px 0 10px}
+.btn{font-family:var(--sans);font-size:15px;font-weight:700;border-radius:12px;padding:13px 26px;cursor:pointer;border:1px solid;display:inline-flex;align-items:center;gap:9px;transition:.15s}
+.btn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}.btn.primary:hover{background:#0b1422}
+.btn.ghost{background:#fff;color:var(--ink-soft);border-color:var(--line-strong)}.btn.ghost:hover{border-color:var(--navy-2);color:var(--navy)}
+
+/* result */
+#result{display:none;margin:14px 0 30px}
+#result.show{display:block}
+.verdict{border-radius:18px;padding:24px 26px;color:#fff;position:relative;overflow:hidden}
+.verdict.lvl-ok{background:linear-gradient(135deg,#0f7a4f,#0c5c3c)}
+.verdict.lvl-warn{background:linear-gradient(135deg,#cf8a1a,#a96a10)}
+.verdict.lvl-risk{background:linear-gradient(135deg,#c0392b,#8f2417)}
+.verdict.lvl-crit{background:linear-gradient(135deg,#a01e10,#6e1209)}
+.verdict .vk{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.85}
+.verdict h2{font-family:var(--serif);font-size:27px;margin:6px 0 6px;line-height:1.15}
+.verdict p{margin:0;font-size:14.5px;opacity:.93;max-width:640px}
+.verdict .meta{display:flex;flex-wrap:wrap;gap:18px;margin-top:16px;font-size:13px;opacity:.92;border-top:1px solid rgba(255,255,255,.22);padding-top:14px}
+.verdict .meta b{font-weight:700}
+
+.synth{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:16px 0}
+.scell{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.scell .dot{width:14px;height:14px;border-radius:50%;flex:0 0 auto}
+.scell .dot.ok{background:var(--ok)}.scell .dot.warn{background:var(--amber)}.scell .dot.risk{background:var(--red)}.scell .dot.na{background:#b6bfca}
+.scell .nm{font-size:13.5px;font-weight:600}
+.scell .st{margin-left:auto;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.scell .st.ok{color:var(--ok)}.scell .st.warn{color:var(--amber)}.scell .st.risk{color:var(--red)}.scell .st.na{color:var(--muted)}
+
+.recos h3{font-family:var(--serif);font-size:21px;margin:24px 0 6px}
+.reco{border-radius:13px;padding:14px 16px;margin:11px 0;border:1px solid}
+.reco.risk{background:var(--red-wash);border-color:var(--red-line)}
+.reco.warn{background:var(--amber-wash);border-color:var(--amber-line)}
+.reco.info{background:#ebf3fa;border-color:#bcd6ec}.reco.info .rh .pill{background:#1f5a8a}
+.reco .rh{display:flex;align-items:center;gap:9px;font-weight:700;font-size:13.5px;margin-bottom:4px}
+.reco .rh .pill{font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;border-radius:99px;padding:3px 9px;color:#fff}
+.reco.risk .rh .pill{background:var(--red)}.reco.warn .rh .pill{background:var(--amber)}
+.reco .rh .tt{color:var(--ink)}
+.reco .rx{font-size:13px;color:var(--ink-soft);margin:4px 0 0}
+.reco .src{font-size:11.5px;font-style:italic;color:var(--muted);margin-top:6px}
+.allgood{background:var(--ok-wash);border:1px solid var(--ok-line);border-radius:13px;padding:16px;color:#0c5c3c;font-size:14px}
+
+.footnote{max-width:880px;margin:30px auto 0;padding:18px 24px 50px;font-size:12px;color:var(--muted)}
+.footnote .brands{display:flex;align-items:center;gap:20px;justify-content:center;flex-wrap:wrap;padding-bottom:16px;margin-bottom:14px;border-bottom:1px solid var(--line)}
+
+/* print fiche header */
+.print-only{display:none}
+
+@media(max-width:680px){
+  .synth{grid-template-columns:1fr}
+  .intro{margin-top:-10px}
+  .top .logos .lk-apare .lk-sub,.top .logos .lk-ucpr .lk-sub{display:none}
+}
+
+@media print{
+  @page{margin:16mm 12mm}
+  body{background:#fff;font-size:11pt}
+  .top,.intro,.progbar,.theme,.actions,.footnote{display:none!important}
+  .print-only{display:block}
+  #result{display:block!important;margin:0}
+  .ph{display:flex;align-items:center;justify-content:space-between;border-bottom:1.5pt solid #0f5c46;padding-bottom:8px;margin-bottom:14px}
+  .ph .pt{font-family:var(--serif);font-weight:800;font-size:13pt;color:var(--ink)}
+  .ph .lk .lk-sub{display:none}
+  .verdict{color:#000!important;background:#fff!important;border:1.5pt solid #999;border-radius:0}
+  .verdict .vk,.verdict h2,.verdict p,.verdict .meta{color:#000;opacity:1}
+  .verdict .meta{border-top:.5pt solid #999}
+  .reco,.scell,.verdict{page-break-inside:avoid}
+  .pfoot{display:block;border-top:.5pt solid #999;margin-top:18px;padding-top:8px;font-size:8.5pt;color:#444;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in on-dark">
+    <div class="logos">
+      <span class="lk lk-ucpr"><span class="lk-mark">UCPR</span><span class="lk-sub">Union des clubs professionnels de rugby</span></span>
+      <span class="sep"></span>
+      <span class="lk lk-apare"><span class="lk-mark">AP<i>A</i>RE</span><span class="lk-sub">Alliance des présidents et associations du rugby de l'élite</span></span>
+    </div>
+    <div class="ey">Outil d'auto-évaluation · Guide pratique n°2</div>
+    <h1>Auto-diagnostic du risque de requalification fiscale de l'association support</h1>
+    <p>Évaluez en quelques minutes l'exposition de votre association au risque de remise en cause de son caractère non lucratif, à l'aune des critères et du faisceau d'indices retenus par l'administration.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="intro">
+    <h2>Comment ça marche</h2>
+    <p>Répondez aux 22 questions ci-dessous, regroupées en 7 familles issues du guide. À la fin, vous obtenez un <strong>niveau de risque par famille</strong>, un <strong>verdict global</strong>, les <strong>recommandations</strong> correspondantes et des <strong>pistes de sécurisation</strong> — le tout imprimable en une fiche de synthèse.</p>
+    <p>Le calcul suit la logique de l'administration fiscale : un seul indice fort suffit à exposer l'ensemble de l'association (assujettissement « par contamination »). Un point rouge n'est donc jamais compensé par des points verts.</p>
+    <div class="clubrow">
+      <label for="club">Club / association :</label>
+      <input type="text" id="club" placeholder="Nom de votre association support">
+    </div>
+    <div class="disclaimer"><b>Avertissement.</b> Cet outil est une aide à la vigilance, à des fins de sensibilisation. Il ne constitue ni un audit, ni un conseil juridique ou fiscal, et ne préjuge pas de l'analyse de l'administration. Toute situation à risque doit être validée avec votre conseil (cabinet d'avocats / expert-comptable).</div>
+  </div>
+</div>
+
+<div class="progbar">
+  <div class="in">
+    <div class="track"><div class="fill" id="fill"></div></div>
+    <div class="lbl" id="plbl">0 / 0 répondu</div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div id="quiz"></div>
+
+  <div class="actions">
+    <button class="btn primary" id="calc">Obtenir mon diagnostic ↓</button>
+    <button class="btn ghost" id="reset">Réinitialiser</button>
+  </div>
+
+  <div id="result">
+    <!-- en-tête d'impression -->
+    <div class="print-only ph">
+      <span class="pt">Auto-diagnostic — risque de requalification fiscale</span>
+      <span style="display:flex;gap:16px;align-items:center">
+        <span class="lk lk-ucpr"><span class="lk-mark">UCPR</span></span>
+        <span class="apare-logo" style="width:58px;height:24px" role="img" aria-label="APARE"></span>
+      </span>
+    </div>
+    <div id="verdict" class="verdict"></div>
+    <div class="synth" id="synth"></div>
+    <div class="recos" id="recos"></div>
+    <div class="recos" id="secu"></div>
+    <div class="actions" id="resultActions">
+      <button class="btn primary" id="printFiche">⎙ Imprimer / enregistrer la fiche (PDF)</button>
+      <button class="btn ghost" id="redo">Modifier mes réponses</button>
+    </div>
+    <div class="print-only pfoot"></div>
+  </div>
+</div>
+
+<div class="footnote">
+  <div class="brands">
+    <a class="brandlink" href="https://www.ucpr.fr" target="_blank" rel="noopener"><span class="lk lk-ucpr"><span class="lk-mark">UCPR</span><span class="lk-sub">Union des clubs professionnels de rugby</span></span></a>
+    <span style="font-size:12px;color:var(--muted);font-weight:600">en collaboration avec</span>
+    <a class="brandlink" href="https://www.apare.org" target="_blank" rel="noopener"><span class="apare-logo" style="width:82px;height:34px" role="img" aria-label="APARE"></span></a>
+  </div>
+  <div class="parea"><b>PAREA.</b> Tous les documents de référence ainsi que cet outil d'auto-diagnostic sont disponibles sur <b>PAREA</b>, le réseau communautaire de l'APARE (plateforme « Bundeling »).</div>
+  <div class="contacts"><b>Contact référent APARE :</b> Maître Wilfried Meynet — Kelten Avocats · wmeynet@kelten.fr · 06 80 73 47 59.&nbsp;&nbsp;<b>Contact APARE :</b> president@apare.org · <a href="https://www.apare.org" target="_blank" rel="noopener" style="color:var(--navy);font-weight:600">www.apare.org</a>.</div>
+  Auto-diagnostic adossé au Guide pratique n°2 « Cadre juridique des relations associations-sociétés et gestion des risques fiscaux liés » (UCPR · APARE — 24 juin 2026). Références : Code du sport, Code général des impôts, BOFiP et jurisprudence administrative. Aucune donnée saisie n'est transmise : tout le calcul s'effectue dans votre navigateur.
+</div>
+
+<script>
+"use strict";
+/* ===== Modèle de questionnaire (ancré sur le Guide n°2) =====
+   lvl : ok | info | warn | risk | crit   — reco affichée si warn/risk/crit */
+var THEMES=[
+ {id:"gouv",c:"var(--green)",t:"Gouvernance & étanchéité",ref:"Chap. I (gouvernance) · Annexe I (gestion désintéressée)",q:[
+   {q:"Les dirigeants de l'association et ceux de la société sont-ils des personnes physiques différentes ?",h:"Le Code du sport impose une étanchéité totale (Art. R.122-8).",o:[
+     {t:"Oui, strictement distinctes",l:"ok"},
+     {t:"Non, ou recoupement partiel",l:"crit",r:"Rétablir une étanchéité stricte : aucune identité de personne entre dirigeant de l'association et dirigeant de la société. Manquement au Code du sport (Art. R.122-8)."}]},
+   {q:"Un dirigeant perçoit-il une rémunération de l'autre structure (rémunération croisée) ?",h:"Interdiction de rémunération croisée (Art. R.122-8).",o:[
+     {t:"Non, aucun flux croisé",l:"ok"},
+     {t:"Oui (y compris en tant que salarié)",l:"crit",r:"Supprimer toute rémunération croisée : aucun dirigeant de l'association ne peut être rémunéré par la société, et inversement — y compris la rémunération d'un dirigeant de l'association salarié de la société."}]},
+   {q:"La gestion de l'association est-elle désintéressée (administration bénévole, pas de distribution de bénéfices, pas d'attribution d'actif) ?",h:"Premier critère, déterminant, de la non-lucrativité.",o:[
+     {t:"Oui, gestion désintéressée",l:"ok"},
+     {t:"Rémunération de dirigeant(s) dans le cadre des tolérances (¾ SMIC, ou seuils ressources)",l:"warn",r:"La rémunération de dirigeants reste possible mais strictement encadrée (¾ du SMIC, soit 1 367,28 € en 2026 ; ou dispositif > 200 000 € de ressources). Vérifier statuts, délibération, transparence et publication en annexe des comptes."},
+     {t:"Non / situation incertaine",l:"crit",r:"La gestion non désintéressée entraîne l'assujettissement aux impôts commerciaux dès la première étape de l'analyse. À sécuriser en priorité avec votre conseil."}]},
+   {q:"Les activités de l'association sont-elles ouvertes au plus grand nombre, sans réserver l'accès à un cercle restreint de personnes ?",h:"Critère d'intérêt général conditionnant notamment l'éligibilité au mécénat (Chap. III C-1).",o:[
+     {t:"Oui, ouvertes à tous",l:"ok"},
+     {t:"Non — accès réservé à un cercle restreint",l:"risk",r:"Le fonctionnement au profit d'un cercle restreint de personnes fait perdre le caractère d'intérêt général, et donc la capacité à délivrer des reçus fiscaux et à capter du mécénat. Ouvrir les activités sans critère de distinction."}]}
+ ]},
+ {id:"cdf",c:"var(--green-2)",t:"Centre de formation",ref:"Chap. IV B-3 · Faisceau d'indices",q:[
+   {q:"Le centre de formation / l'équipe espoirs est-il géré par l'association ou par la société ?",h:"La gestion par l'association est un indice de « vivier de joueurs » au profit de la société.",o:[
+     {t:"Par la société",l:"ok"},
+     {t:"Par l'association",l:"risk",r:"La solution la plus sûre est de rattacher la gestion du centre de formation à la société. S'il reste à l'association, traiter le sujet avec une vigilance particulière : la jurisprudence y voit un « vivier de joueurs » et un coût supporté par le non-lucratif au profit de l'activité commerciale."}]},
+   {q:"Si géré par l'association : la convention mentionne-t-elle le statut des joueurs rattachés au centre de formation ?",h:"Sans objet si le centre est géré par la société.",o:[
+     {t:"Sans objet (géré par la société)",l:"ok"},
+     {t:"Non, aucune mention dans la convention",l:"warn",r:"Maintenir l'absence de mention sur le statut des joueurs du centre de formation dans la convention liant les deux structures."},
+     {t:"Oui, le statut/rôle est mentionné",l:"risk",r:"Retirer de la convention toute mention du statut des joueurs rattachés au centre de formation : cette mention alimente directement le faisceau d'indices."}]}
+ ]},
+ {id:"rh",c:"var(--amber)",t:"Moyens partagés (humains & matériels)",ref:"Chap. IV B-3 · Chap. II (installations) · Faisceau d'indices",q:[
+   {q:"Des salariés sont-ils mis à disposition entre les deux structures ?",h:"",o:[
+     {t:"Non — chaque structure a ses propres salariés",l:"ok"},
+     {t:"Oui, par convention écrite + refacturation au coût réel/marché",l:"warn",r:"La mise à disposition de salariés reste un point de vigilance même formalisée : conserver une convention écrite et une refacturation conforme au droit du travail, et privilégier à terme des ressources humaines propres à chaque structure."},
+     {t:"Oui, gratuitement, à coût modique ou sans formalisation",l:"risk",r:"Régulariser sans délai : toute mise à disposition gratuite, à tarif inférieur au coût réel ou non formalisée est un fort indice d'interdépendance (avantage économique procuré à la structure bénéficiaire). Convention écrite + refacturation au coût réel."}]},
+   {q:"Des bénévoles de l'association interviennent-ils dans les activités de la société (organisation des rencontres professionnelles, etc.) ?",h:"Risque jugé particulièrement sensible.",o:[
+     {t:"Non, jamais",l:"ok"},
+     {t:"Oui, ponctuellement ou régulièrement",l:"risk",r:"Éviter fortement toute participation des bénévoles de l'association aux activités de la société : elle procure à la société un avantage économique substantiel sans coût et fait considérer que l'association agit dans l'intérêt de la société."}]},
+   {q:"L'association met-elle à disposition de la société des équipements, locaux ou installations sportives à titre gratuit ou pour un coût modique ?",h:"Indice explicite du faisceau : économies procurées à la société.",o:[
+     {t:"Non, ou refacturation au prix du marché",l:"ok"},
+     {t:"Oui, à titre gratuit ou pour un coût modique",l:"risk",r:"Formaliser toute mise à disposition d'équipements, de locaux ou d'installations par une convention écrite et une refacturation au prix du marché. La mise à disposition à coût modique permet à la société de réaliser des économies — indice expressément retenu par l'administration."}]}
+ ]},
+ {id:"flux",c:"var(--red)",t:"Flux financiers",ref:"Chap. IV (faisceau d'indices, B-2)",q:[
+   {q:"Existe-t-il des flux financiers autres que la redevance de solidarité et la redevance « marque » (avances de trésorerie, abandons de créances, comblement de passif, comptes bancaires mêlés) ?",h:"",o:[
+     {t:"Non — flux limités à ceux préconisés par le Code du sport",l:"ok"},
+     {t:"Oui, un ou plusieurs de ces flux existent",l:"risk",r:"Limiter au maximum les flux financiers et s'en tenir aux deux flux préconisés : la redevance de mise à disposition des marques/signes distinctifs, et la redevance annuelle pour la contribution/gestion du rugby amateur. Supprimer avances, abandons de créances, comblements de passif et toute confusion de comptes."}]},
+   {q:"La société verse-t-elle du mécénat à l'association ?",h:"Le mécénat suppose l'absence de contrepartie ; or l'association en accorde par nature à la société.",o:[
+     {t:"Non",l:"ok"},
+     {t:"Oui",l:"risk",r:"Éviter fortement tout mécénat de la société vers l'association : l'association accorde par nature des contreparties (numéro d'affiliation, marques…), ce qui fragilise la qualification du versement. L'association peut en revanche capter du mécénat auprès d'entreprises partenaires — sans que la société soit à l'origine de la prospection."}]},
+   {q:"L'association procède-t-elle à des distributions de résultats vers la société, ou en bénéficie-t-elle indirectement (droits TV, sponsors de la SASP) ?",h:"Être actionnaire fondateur est normal ; les flux et avantages ne le sont pas.",o:[
+     {t:"Non",l:"ok"},
+     {t:"Oui / situation à clarifier",l:"risk",r:"Neutraliser tout lien financier traduisant une communauté d'intérêts (distributions, abandons de créances, bénéfice indirect des droits TV et sponsors). La seule détention de titres reste admise, mais pas les flux et avantages associés."}]}
+ ]},
+ {id:"marque",c:"var(--navy)",t:"Marque, redevance & communication",ref:"Chap. III D-2 (CAA Bordeaux 2018) · Chap. IV B-2",q:[
+   {q:"La mise à disposition de la marque et des signes distinctifs est-elle explicitement prévue dans la convention (gratuité écrite, ou redevance « marque » distincte et chiffrée) ?",h:"L'arrêt CAA Bordeaux 30/11/2018 a requalifié faute de stipulation claire.",o:[
+     {t:"Oui — clause explicite et flux distincts",l:"ok"},
+     {t:"Non précisé / une seule somme globale indistincte",l:"risk",r:"Préciser par écrit dans la convention le sort de la marque : soit mise à disposition gratuite explicite, soit redevance « marque » distincte et chiffrée. Distinguer impérativement les deux flux (redevance amateur / redevance marque) — l'absence de distinction a entraîné la requalification de l'intégralité du statut fiscal (CAA Bordeaux 2018)."}]},
+   {q:"La redevance annuelle versée par la société a-t-elle un objet unique « contribution / gestion et développement du rugby amateur » ?",h:"",o:[
+     {t:"Oui, objet unique et non commercial",l:"ok"},
+     {t:"Non / dénomination à connotation commerciale",l:"warn",r:"Prévoir un objet unique à cette redevance — la contribution à la gestion et au développement du rugby amateur — et écarter toute dénomination commerciale ou sans lien direct avec le Code du sport."}]},
+   {q:"Les canaux de communication (site, réseaux sociaux) et les campagnes (sponsoring société / mécénat association) sont-ils étanches entre les deux structures ?",h:"",o:[
+     {t:"Oui — étanches et non mutualisés",l:"ok"},
+     {t:"Non — partagés ou mutualisés",l:"risk",r:"Rendre étanches les moyens de communication et les campagnes : les supports de l'association ne doivent pas promouvoir l'équipe pro ni servir d'outil marketing de la société, et inversement. Pas de prospection croisée ni de mise à disposition gratuite du réseau relationnel."}]},
+   {q:"Le total des recettes lucratives accessoires de l'association dépasse-t-il la franchise (81 051 € en 2026) sans sectorisation ?",h:"",o:[
+     {t:"Non — sous le plafond, ou activités sectorisées",l:"ok"},
+     {t:"Oui — au-delà du plafond, sans sectorisation",l:"risk",r:"Au-delà de 81 051 € (2026) de recettes lucratives accessoires, mettre en place une sectorisation (comptabilité analytique isolant le secteur lucratif), faute de quoi l'ensemble des recettes peut être assujetti. Vérifier aussi que les activités non lucratives restent significativement prépondérantes."}]}
+ ]},
+ {id:"lucr",c:"var(--amber)",t:"Activités lucratives & sécurisation fiscale",ref:"Chap. III D-1 · Annexe I (4P) · Chap. III D-5 (rescrit)",q:[
+   {q:"L'association organise-t-elle au maximum 6 manifestations de soutien / bienfaisance par an au titre du dispositif d'exonération ?",h:"Au-delà de 6 par année civile, l'excédent relève du droit commun (Art. 261-7-1°-c CGI).",o:[
+     {t:"6 au plus, ou dispositif non utilisé",l:"ok"},
+     {t:"Plus de 6 par an",l:"warn",r:"Le dispositif d'exonération est limité à 6 manifestations par année civile : au-delà, les manifestations supplémentaires relèvent du régime de droit commun et doivent être examinées comme des activités lucratives. Veiller aussi à ne pas y loger l'objet social habituel de l'association."}]},
+   {q:"L'association exerce-t-elle une activité qui concurrence des entreprises du secteur commercial ?",h:"Étape 2-3 de l'analyse de non-lucrativité (règle des 4P : Produit, Public, Prix, Publicité).",o:[
+     {t:"Non — pas d'activité concurrentielle",l:"ok"},
+     {t:"Oui, mais dans des conditions différentes (produit, public, prix ou publicité non commerciaux)",l:"warn",r:"Documenter en quoi l'activité se distingue du marché au regard des 4P (produit répondant à un besoin non couvert, public spécifique, prix accessible, simple information et non publicité). C'est ce qui préserve la non-lucrativité malgré la concurrence."},
+     {t:"Oui, dans des conditions similaires à celles d'une entreprise",l:"risk",r:"Une activité concurrentielle exercée dans des conditions similaires au marché (règle des 4P) est imposable. Réexaminer produit / public / prix / publicité, ou isoler l'activité par sectorisation, avec votre conseil."}]},
+   {q:"Avez-vous sécurisé la situation fiscale de l'association par un rescrit fiscal (position formelle et opposable de l'administration) ?",h:"Outil de sécurisation, non un risque.",o:[
+     {t:"Oui, rescrit obtenu",l:"ok"},
+     {t:"Non / non envisagé",l:"info",r:"Envisager un rescrit fiscal pour sécuriser le traitement de l'association : il rend la position de l'administration opposable et limite sa faculté de remise en cause ultérieure. Demande adressée (LRAR ou messagerie sécurisée impots.gouv.fr) à la DDFiP du siège, avec une présentation complète et exacte des activités."}]}
+ ]},
+ {id:"conv",c:"var(--red)",t:"Convention & buvettes",ref:"Chap. II · Chap. IV B-4 (vente d'alcool)",q:[
+   {q:"La convention est-elle approuvée par le préfet, conclue pour 10 à 15 ans, et sans reconduction tacite ?",h:"Conditions de validité (Art. L.122-14, L.122-15).",o:[
+     {t:"Oui, sur tous ces points",l:"ok"},
+     {t:"Non / au moins un point manquant",l:"crit",r:"Régulariser la convention : durée de 10 à 15 ans, absence de reconduction tacite, approbation préfectorale (réputée acquise à défaut d'opposition sous 2 mois). À défaut, la société peut perdre le droit d'usage du numéro d'affiliation."}]},
+   {q:"Votre convention arrive-t-elle à échéance d'ici fin 2027 ?",h:"Vague nationale de renouvellement, échelonnée de 2026 à fin 2027.",o:[
+     {t:"Non / échéance ultérieure",l:"ok"},
+     {t:"Oui — renouvellement à préparer",l:"info",r:"Anticiper le renouvellement (échelonné de 2026 à fin 2027) : intégrer le délai préfectoral (avis FFR/LNR, opposition possible sous 2 mois) et profiter de l'échéance pour adopter une convention « sécurisée » limitée aux mentions obligatoires."}]},
+   {q:"Buvettes en jour de match de l'équipe professionnelle : quel est le mode de gestion ?",h:"Croisement des risques « vente d'alcool » et « requalification ».",o:[
+     {t:"Autorisation, gestion et recettes 100 % association",l:"warn",r:"Le risque « alcool » est maîtrisé, mais l'exploitation d'une buvette lors d'un événement de l'équipe pro peut être lue comme l'utilisation d'un événement professionnel pour accroître les recettes. À documenter prudemment."},
+     {t:"Gestion ou recettes (en tout ou partie) au profit de la société",l:"risk",r:"Forte exposition : participation de l'association à l'activité lucrative de la société et/ou mise à disposition de la dérogation. La sécurisation est délicate — apprécier le risque au cas par cas avec votre conseil."},
+     {t:"Exploitation par la société (avec ou sans autorisation)",l:"crit",r:"Cumul de risques : l'intervention de la société dans l'exploitation des buvettes est en principe impossible (autorisations réservées aux associations agréées) et renforce les liens d'interdépendance. À traiter en priorité."},
+     {t:"Pas de buvette en jour de match pro / sans objet",l:"ok"}]}
+ ]}
+];
+
+var SEV={ok:0,info:0,warn:1,risk:2,crit:3};
+var quiz=document.getElementById('quiz');
+var totalQ=0;
+THEMES.forEach(function(th){
+  totalQ+=th.q.length;
+  var sec=document.createElement('div');sec.className='theme';sec.style.setProperty('--c',th.c);
+  var qhtml=th.q.map(function(q,qi){
+    var opts=q.o.map(function(o,oi){
+      var id=th.id+'_'+qi+'_'+oi;
+      return '<label class="opt" data-lvl="'+o.l+'"><input type="radio" name="'+th.id+'_'+qi+'" value="'+oi+'" data-theme="'+th.id+'"><span>'+o.t+'</span></label>';
+    }).join('');
+    return '<div class="q"><div class="qt">'+q.q+'</div>'+(q.h?'<div class="qh">'+q.h+'</div>':'')+'<div class="opts">'+opts+'</div></div>';
+  }).join('');
+  sec.innerHTML='<div class="th"><div class="num">'+(THEMES.indexOf(th)+1)+'</div><div><h3>'+th.t+'</h3><div class="ref">'+th.ref+'</div></div></div><div class="body">'+qhtml+'</div>';
+  quiz.appendChild(sec);
+});
+
+var fill=document.getElementById('fill'),plbl=document.getElementById('plbl');
+function answered(){var n=0;THEMES.forEach(function(th){th.q.forEach(function(q,qi){if(document.querySelector('input[name="'+th.id+'_'+qi+'"]:checked'))n++;});});return n;}
+function updateProg(){var n=answered();fill.style.width=(totalQ?Math.round(n/totalQ*100):0)+'%';plbl.textContent=n+' / '+totalQ+' répondu';}
+
+quiz.addEventListener('change',function(e){
+  if(e.target.type==='radio'){
+    e.target.closest('.opts').querySelectorAll('.opt').forEach(function(l){l.classList.remove('sel');});
+    e.target.closest('.opt').classList.add('sel');
+    updateProg();
+  }
+});
+
+function levelName(lv){return lv==='ok'?'Maîtrisé':lv==='warn'?'Vigilance':lv==='risk'?'À risque':'Non évalué';}
+
+document.getElementById('calc').addEventListener('click',function(){
+  var themeMax={},alerts=[],secu=[],anyCrit=false,redThemes=0,warnThemes=0,naThemes=0;
+  THEMES.forEach(function(th){
+    var max=-1,naCount=0;
+    th.q.forEach(function(q,qi){
+      var sel=document.querySelector('input[name="'+th.id+'_'+qi+'"]:checked');
+      if(!sel){naCount++;return;}
+      var o=q.o[+sel.value];var s=SEV[o.l];
+      if(s>max)max=s;
+      if(o.l==='crit')anyCrit=true;
+      if((o.l==='warn'||o.l==='risk'||o.l==='crit')&&o.r){
+        alerts.push({theme:th.t,lvl:(o.l==='warn'?'warn':'risk'),txt:o.r,ref:th.ref,sev:s});
+      } else if(o.l==='info'&&o.r){
+        secu.push({theme:th.t,txt:o.r,ref:th.ref});
+      }
+    });
+    var lvl;
+    if(max<0)lvl='na';
+    else if(max>=2)lvl='risk';
+    else if(max===1)lvl='warn';
+    else lvl='ok';
+    themeMax[th.id]={lvl:lvl,name:th.t,naAll:(naCount===th.q.length)};
+    if(lvl==='risk')redThemes++;else if(lvl==='warn')warnThemes++;else if(lvl==='na')naThemes++;
+  });
+
+  /* verdict global */
+  var vlvl,vk,vh,vp;
+  if(anyCrit){vlvl='lvl-crit';vk='Risque élevé';vh='Sécurisation prioritaire';vp='Au moins un point critique a été identifié (rupture du cadre légal ou indice fort d\'interdépendance). Ces situations doivent être traitées sans délai, avec votre conseil, avant tout renouvellement de convention.';}
+  else if(redThemes>0){vlvl='lvl-risk';vk='Risque significatif';vh='Des points à corriger';vp='Une ou plusieurs familles présentent des indices susceptibles de fonder une requalification « par contamination ». Suivez les recommandations ci-dessous, par ordre de priorité.';}
+  else if(warnThemes>0){vlvl='lvl-warn';vk='Vigilance';vh='Quelques ajustements recommandés';vp='Aucun indice majeur, mais certains points appellent une attention pour consolider la sécurité juridique et fiscale de l\'association.';}
+  else {vlvl='lvl-ok';vk='Situation a priori maîtrisée';vh='Bonnes pratiques en place';vp='Sur les points évalués, aucun indice significatif d\'interdépendance n\'a été relevé. Maintenez ces pratiques et réévaluez à chaque évolution (convention, flux, organisation).';}
+
+  var club=(document.getElementById('club').value||'—').trim();
+  var d=new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
+  var na=naThemes>0?(' · '+naThemes+' famille(s) non évaluée(s)'):'';
+
+  document.getElementById('verdict').className='verdict '+vlvl;
+  document.getElementById('verdict').innerHTML=
+    '<div class="vk">'+vk+'</div><h2>'+vh+'</h2><p>'+vp+'</p>'+
+    '<div class="meta"><span><b>Club :</b> '+club+'</span><span><b>Date :</b> '+d+'</span><span><b>Familles à risque :</b> '+redThemes+'</span><span><b>En vigilance :</b> '+warnThemes+na+'</span></div>';
+
+  /* synthèse par famille */
+  var sy='';
+  THEMES.forEach(function(th){
+    var m=themeMax[th.id];var cls=m.lvl;
+    sy+='<div class="scell"><span class="dot '+cls+'"></span><span class="nm">'+th.t+'</span><span class="st '+cls+'">'+levelName(cls)+'</span></div>';
+  });
+  document.getElementById('synth').innerHTML=sy;
+
+  /* recommandations triées par gravité */
+  alerts.sort(function(a,b){return b.sev-a.sev;});
+  var rh='';
+  if(alerts.length){
+    rh='<h3>Recommandations ('+alerts.length+')</h3>';
+    alerts.forEach(function(a){
+      rh+='<div class="reco '+a.lvl+'"><div class="rh"><span class="pill">'+(a.lvl==='risk'?'À traiter':'Vigilance')+'</span><span class="tt">'+a.theme+'</span></div><div class="rx">'+a.txt+'</div><div class="src">'+a.ref+'</div></div>';
+    });
+  } else {
+    rh='<div class="allgood"><strong>Aucune alerte sur les points évalués.</strong> Pensez à conserver ce diagnostic daté et à le refaire à chaque évolution de votre organisation ou de votre convention.</div>';
+  }
+  document.getElementById('recos').innerHTML=rh;
+
+  /* pistes de sécurisation (info) */
+  var sx='';
+  if(secu.length){
+    sx='<h3>Pistes de sécurisation</h3>';
+    secu.forEach(function(s){
+      sx+='<div class="reco info"><div class="rh"><span class="pill">Sécurisation</span><span class="tt">'+s.theme+'</span></div><div class="rx">'+s.txt+'</div><div class="src">'+s.ref+'</div></div>';
+    });
+  }
+  document.getElementById('secu').innerHTML=sx;
+
+  document.querySelector('.pfoot').textContent='UCPR en collaboration avec l\'APARE — Guide pratique n°2 · Diagnostic généré le '+d+' · Document de travail, non opposable.';
+
+  var res=document.getElementById('result');res.classList.add('show');
+  res.scrollIntoView({behavior:'smooth',block:'start'});
+});
+
+document.getElementById('printFiche').addEventListener('click',function(){window.print();});
+document.getElementById('redo').addEventListener('click',function(){document.getElementById('quiz').scrollIntoView({behavior:'smooth',block:'start'});});
+
+document.getElementById('reset').addEventListener('click',function(){
+  document.querySelectorAll('input[type=radio]').forEach(function(r){r.checked=false;});
+  document.querySelectorAll('.opt.sel').forEach(function(l){l.classList.remove('sel');});
+  document.getElementById('result').classList.remove('show');
+  updateProg();window.scrollTo({top:0,behavior:'smooth'});
+});
+
+updateProg();
+</script>
+</body>
+</html>
